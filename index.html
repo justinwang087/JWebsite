@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Justin — Personal Site</title>
+  <!-- Lora font, teal accent, light grey text -->
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <!-- Canvas background that reacts to mouse -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="/">Justin</a>
+      <div class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/projects.html">Projects</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Hero / Opening section -->
+    <section class="hero">
+      <h1>Hi, I'm Justin.</h1>
+      <p class="lead">Competitive programmer, robotics nerd, and perpetual question-asker.</p>
+      <p class="subtle">I like digging into the logic behind things — hover a few words for anecdotes.</p>
+      <p class="cta"><a href="/projects.html" class="btn">See Projects</a></p>
+    </section>
+
+    <!-- About preview -->
+    <section class="about-preview card">
+      <h2>About</h2>
+      <p>
+        I'm Justin — I build fast algorithms and faster robots. I compete in programming contests (USACO Gold) and
+        robotics (VIQRC & VRC). Sometimes I solve problems for fun; sometimes the problems solve me.
+        I enjoy <span class="hint" data-tooltip="I once optimized a path by noticing symmetry and saved 0.0001s — priceless">math</span>
+        and <span class="hint" data-tooltip="Robotics: where code meets caffeine and duct tape">science</span>.
+      </p>
+      <p><a href="/about.html">Read more →</a></p>
+    </section>
+
+    <!-- Interests cards -->
+    <section class="interests">
+      <h2>Interests</h2>
+      <div class="cards">
+        <article class="card">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2L3 7v7c0 5 4 9 9 9s9-4 9-9V7l-9-5z"></path></svg>
+          <h3>Competitive Programming</h3>
+          <p>Problem solving under pressure — algorithms, data structures, and clever heuristics.</p>
+        </article>
+        <article class="card">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l3 6 6 .5-4.5 4 1 6-5.5-3.5L6 19l1-6L3.5 9.5 9 9 12 2z"></path></svg>
+          <h3>Robotics</h3>
+          <p>Designing and programming robots that compete and (occasionally) rebel in elegant ways.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Find me on <a href="https://github.com/your-github" target="_blank" rel="noopener">GitHub</a> • <a href="mailto:you@example.com">email</a></p>
+  </footer>
+
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>

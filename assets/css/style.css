@@ -1,0 +1,59 @@
+/* style.css - main styles for Justin's personal site
+   Organized for clarity: variables, reset, layout, components, responsive rules
+*/
+:root{
+  --bg:#0b0c0f;
+  --card:#0f1113;
+  --accent:#4ecdc4;
+  --muted:#d1d1d1;
+  --glass: rgba(255,255,255,0.03);
+  --max-width:1100px;
+}
+/* Basic reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: 'Lora', serif;
+  background:var(--bg);
+  color:var(--muted);
+  -webkit-font-smoothing:antialiased;
+}
+/* Canvas occupies full screen under content */
+#bg-canvas{position:fixed;inset:0;z-index:0}
+/* Site layout */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:5;background:linear-gradient(180deg,rgba(11,12,15,0.6),transparent);backdrop-filter:blur(6px)}
+.nav{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
+.logo{color:var(--muted);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav-links a{color:var(--muted);text-decoration:none;margin-left:18px;opacity:0.9}
+.container{position:relative;z-index:2;max-width:var(--max-width);margin:120px auto 60px;padding:0 20px}
+.hero{padding:40px 0}
+.hero h1{font-size:2.4rem;margin:0 0 8px}
+.lead{color:var(--muted);opacity:0.95}
+.subtle{color:rgba(209,209,209,0.7);margin-top:6px}
+.btn{display:inline-block;background:var(--accent);color:#0b0c0f;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700}
+/* Cards and sections */
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;margin:20px 0;box-shadow:0 4px 18px rgba(0,0,0,0.6)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card .icon{width:36px;height:36px;margin-bottom:8px;color:var(--accent)}
+.card h3{margin:6px 0}
+.muted{color:rgba(209,209,209,0.7)}
+.interests .cards{margin-top:12px}
+.site-footer{text-align:center;color:rgba(209,209,209,0.7);padding:30px 0}
+/* Tooltip / hint style using data-tooltip */
+.hint{position:relative;border-bottom:1px dashed rgba(78,205,196,0.35);cursor:help}
+.hint::after{content:attr(data-tooltip);position:absolute;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;pointer-events:none;background:#111;padding:8px;border-radius:8px;color:var(--muted);white-space:nowrap;font-size:0.9rem;margin-top:6px;transition:opacity 0.15s ease,transform 0.15s ease}
+.hint:hover::after{opacity:1;transform:translateX(-50%) translateY(18px)}
+/* Small, pleasant hover animation for cards */
+.card {transition:transform 0.2s ease,box-shadow 0.2s ease}
+.card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+/* Responsive tweaks */
+@media (max-width:600px){
+  .hero h1{font-size:1.8rem}
+  .nav-links{display:none}
+  .container{margin-top:90px}
+}
+/* Accessibility: prefer-reduced-motion respects */
+@media (prefers-reduced-motion:reduce){
+  .card,.hint::after{transition:none}
+}
