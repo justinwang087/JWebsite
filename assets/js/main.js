@@ -53,7 +53,7 @@
         if(d<120){
           ctx.beginPath();
           ctx.strokeStyle = config.color;
-          ctx.globalAlpha = 0.12*(1 - d/120);
+          ctx.globalAlpha = 0.42*(1 - d/120);
           ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
         }
       }
