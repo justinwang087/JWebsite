@@ -2,8 +2,11 @@
    - Lightweight particle system that reacts to mouse movement
    - Respects prefers-reduced-motion
 */
+console.log('[main.js] script loaded');
 (function(){
+  window.addEventListener('error', (ev) => { console.error('[main.js] runtime error:', ev.message, ev.filename + ':' + ev.lineno); });
   const canvas = document.getElementById('bg-canvas');
+  console.log('[main.js] bg-canvas element:', !!canvas);
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
   let w=0,h=0,particles=[];
@@ -31,8 +34,17 @@
   window.addEventListener('mouseout', ()=>{mouse.active=false});
 
   function step(){
-    if(prefersReduced) { ctx.clearRect(0,0,w,h); return; }
+    // Always clear first
     ctx.clearRect(0,0,w,h);
+    // If user prefers reduced motion, draw a single static background frame and stop.
+    if(prefersReduced) {
+      // draw a subtle static field of dots
+      for(let i=0;i<Math.min(80, particles.length);i++){
+        const p = particles[i];
+        ctx.beginPath(); ctx.fillStyle = 'rgba(42,214,201,0.12)'; ctx.arc(p.x,p.y,Math.max(0.6,p.r*0.9),0,Math.PI*2); ctx.fill();
+      }
+      return;
+    }
     // draw connections
     for(let i=0;i<particles.length;i++){
       const p = particles[i];
@@ -116,12 +128,12 @@
 
     // Initialize geom canvases (small particle systems forming a torus-like shape)
     const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-    if(prefersReduced) return;
+    console.log('[geom] prefersReduced=', prefersReduced, 'geom-canvas count=', document.querySelectorAll('.geom-canvas').length);
 
     const globalMouse = {x:-9999,y:-9999};
     window.addEventListener('mousemove', (e)=>{ globalMouse.x = e.clientX; globalMouse.y = e.clientY; });
 
-    document.querySelectorAll('.geom-canvas').forEach(canvas => {
+    document.querySelectorAll('.geom-canvas').forEach((canvas, index) => {
       const ctx = canvas.getContext('2d');
       let dpr = Math.max(1, window.devicePixelRatio || 1);
 
@@ -131,30 +143,6 @@
         canvas.height = Math.floor(rect.height * dpr);
         ctx.setTransform(dpr,0,0,dpr,0,0);
       }
-
-      let particles = [];
-      const N = 12; // slightly denser
-      function initParticles(){
-        particles = [];
-        const rect = canvas.getBoundingClientRect();
-        for(let i=0;i<N;i++){
-          particles.push({
-            theta: Math.random()*Math.PI*2,
-            phi: Math.random()*Math.PI*2,
-            R: Math.max(rect.width, rect.height)*0.16 + Math.random()*10,
-            r: 1 + Math.random()*3,
-            baseT: (0.5 + Math.random()*1.6) * (Math.random()<0.5?1:-1) * 0.004,
-            baseP: (0.5 + Math.random()*1.6) * (Math.random()<0.5?1:-1) * 0.005,
-            vx: (Math.random()-0.5)*0.6,
-            vy: (Math.random()-0.5)*0.6,
-            jitterAmp: 0.6 + Math.random()*1.4,
-            damping: 0.86 + Math.random()*0.12
-          });
-        }
-      }
-
-      resize();
-      initParticles();
 
       const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#4ecdc4';
       function setAlpha(color, a){
@@ -176,75 +164,146 @@
         return color;
       }
 
-      let rafId = null;
+      const solidTemplates = [
+        {type:'star', sides:5, radiusScale:0.44, depth:0.16, speed:0.018, alpha:0.88, lineWidth:2.3, color:'#e8f9f5'},
+        {type:'frame', sides:4, radiusScale:0.68, depth:0.12, speed:-0.011, alpha:0.72, lineWidth:2.0, color:'#c4f2e7'},
+        {type:'complex', sides:6, radiusScale:0.86, depth:0.2, speed:0.008, alpha:0.58, lineWidth:1.7, color:'#abf0e3'},
+        {type:'tesseract', sides:8, radiusScale:1.0, depth:0.24, speed:-0.005, alpha:0.45, lineWidth:1.5, color:'#84e7d9'}
+      ];
+
+      let solids = [];
+      function initSolids(){
+        const rect = canvas.getBoundingClientRect();
+        const minDim = Math.min(rect.width, rect.height);
+        const radius = minDim * 0.38; // smaller so shapes fit comfortably inside
+        const radiusOuter = minDim * 0.46;
+        const count = 2 + Math.floor(Math.random() * 4); // 2-5 layers
+        solids = [];
+        for(let i = 0; i < count; i++){
+          const cfg = solidTemplates[Math.floor(Math.random() * solidTemplates.length)];
+          const baseRadius = cfg.type === 'tesseract' ? radiusOuter : radius;
+          solids.push({
+            type: cfg.type,
+            sides: cfg.sides,
+            radius: baseRadius * cfg.radiusScale * (0.82 + Math.random() * 0.22),
+            rotation: (Math.PI/6) * i + Math.random() * Math.PI,
+            speed: cfg.speed * (index % 2 === 0 ? 1 : -1) * (0.7 + Math.random() * 0.5),
+            alpha: Math.max(0.22, cfg.alpha * (0.7 + Math.random() * 0.28)),
+            lineWidth: Math.max(0.8, cfg.lineWidth * (0.75 + Math.random() * 0.4)),
+            color: cfg.color,
+            depth: cfg.depth,
+            skew: (Math.random() - 0.5) * 0.12, // reduced skew
+            phase: Math.random() * Math.PI * 2,
+            layer: i
+          });
+        }
+      }
+
+      function drawPolygon(shape, cx, cy, strokeStyle, offset=0){
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(shape.rotation + offset);
+        ctx.beginPath();
+        for(let p = 0; p < shape.sides; p++){
+          const angle = (Math.PI*2 / shape.sides) * p - Math.PI/2;
+          const r = shape.radius * (1 - offset * 0.08);
+          const pulse = 1 + Math.sin(angle * 3 + shape.phase) * shape.skew * 0.28;
+          const x = Math.cos(angle) * r * pulse;
+          const y = Math.sin(angle) * r * (1 + Math.cos(angle * 2 + shape.phase) * shape.skew * 0.18);
+          if(p === 0) ctx.moveTo(x,y);
+          else ctx.lineTo(x,y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = shape.lineWidth;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = 'rgba(255,255,255,0.18)';
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawTesseract(shape, cx, cy, strokeStyle){
+        const n = 8;
+        const radius = shape.radius;
+        const angleOffset = shape.rotation;
+        const pts = [];
+        for(let i = 0; i < n; i++){
+          const a = (Math.PI*2/n)*i + angleOffset;
+          const z4 = Math.sin(a) * radius * 0.32;
+          const x = Math.cos(a*1.3) * (radius * 0.82);
+          const y = Math.sin(a*1.1) * (radius * 0.82);
+          const proj = 1 / (1 + z4 / (radius*2.2));
+          pts.push({x: cx + x*proj, y: cy + y*proj - z4*0.04});
+        }
+        ctx.save();
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = shape.lineWidth;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(255,255,255,0.14)';
+        for(let i = 0; i < n; i++){
+          const a = pts[i], b = pts[(i+1)%n];
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          const c = pts[i < 4 ? i+4 : i-4];
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(c.x,c.y); ctx.stroke();
+        }
+        ctx.restore();
+      }
+
       function draw(){
         const rect = canvas.getBoundingClientRect();
         const w = rect.width, h = rect.height;
         ctx.clearRect(0,0,w,h);
         const cx = w/2, cy = h/2;
-        const pts = [];
 
-        // compute proximity modifier based on mouse distance to canvas center
         const mx = globalMouse.x, my = globalMouse.y;
         const dxm = mx - (rect.left + cx), dym = my - (rect.top + cy);
         const dist = Math.hypot(dxm,dym);
-        const maxDist = 520;
-        const proximity = Math.max(0, 1 - dist / maxDist);
+        const proximity = Math.max(0, 1 - dist / 280);
 
-        for(let p of particles){
-          // speed scales with proximity (add small randomized jitter)
-          const jitterNoise = (Math.random()-0.5) * 0.0004;
-          const speedT = p.baseT * (1 + proximity * 4) + jitterNoise;
-          const speedP = p.baseP * (1 + proximity * 4) + jitterNoise;
-          p.theta += speedT;
-          p.phi += speedP;
-          const x3 = (p.R + p.r*Math.cos(p.phi)) * Math.cos(p.theta);
-          const y3 = (p.R + p.r*Math.cos(p.phi)) * Math.sin(p.theta);
-          const z3 = p.r * Math.sin(p.phi);
-          const f = Math.min(140, Math.max(60, Math.hypot(w,h)));
-          const scale = f / (f + z3);
-          let x2 = cx + x3 * scale;
-          let y2 = cy + y3 * scale * 0.8;
-          // velocity jitter affected by proximity for more dynamic motion (reduced)
-          p.vx += (Math.random()-0.5) * 0.35 * p.jitterAmp * (0.6 + proximity);
-          p.vy += (Math.random()-0.5) * 0.35 * p.jitterAmp * (0.6 + proximity);
-          // occasional small burst for randomness (reduced)
-          if(Math.random() < 0.002 + proximity*0.005){ p.vx += (Math.random()-0.5)*1.0; p.vy += (Math.random()-0.5)*1.0 }
-          p.vx *= p.damping; p.vy *= p.damping;
-          x2 += p.vx; y2 += p.vy;
-          pts.push({x:x2,y:y2,s:Math.max(0.5, 1.4*scale)});
-        }
+        const phase = (performance.now() * 0.00014) % 1;
+        const offsetX = w * (phase - 0.5);
+        const gradient = ctx.createLinearGradient(offsetX, 0, w + offsetX, 0);
+        gradient.addColorStop(0, setAlpha('#8fe1d5', 0.72));
+        gradient.addColorStop(0.3, setAlpha(accent, 0.92));
+        gradient.addColorStop(0.5, setAlpha('#d4fff5', 0.68));
+        gradient.addColorStop(0.7, setAlpha('#8fe1d5', 0.72));
+        gradient.addColorStop(1, setAlpha('#aef7e8', 0.62));
 
-        // stronger connections with accent color
-        for(let i=0;i<pts.length;i++){
-          for(let j=i+1;j<pts.length;j++){
-            const a=pts[i], b=pts[j];
-            const dx=a.x-b.x, dy=a.y-b.y; const d=Math.hypot(dx,dy);
-            if(d<80){
-              ctx.beginPath();
-              const lineAlpha = 0.95*(1-d/80);
-              ctx.strokeStyle = 'rgba(255,255,255,' + lineAlpha + ')';
-              ctx.lineWidth = 1.8;
-              ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        solids.forEach((shape, idx) => {
+          shape.rotation += shape.speed * (1 + proximity * 0.7);
+          const offset = idx * 0.14;
+          if(shape.type === 'tesseract'){
+            drawTesseract(shape, cx, cy, gradient);
+          } else {
+            drawPolygon(shape, cx, cy, gradient, offset);
+            if(shape.type === 'star'){
+              drawPolygon({...shape, radius: shape.radius * 0.64, lineWidth: shape.lineWidth * 0.9}, cx, cy, gradient, offset + 0.38);
+            }
+            if(shape.type === 'frame'){
+              drawPolygon({...shape, radius: shape.radius * 0.82, lineWidth: shape.lineWidth * 0.75}, cx, cy, gradient, offset + 0.28);
+            }
+            if(shape.type === 'complex'){
+              for(let extra = 1; extra <= 2; extra++){
+                drawPolygon({...shape, radius: shape.radius * (0.84 - extra*0.14), lineWidth: shape.lineWidth * 0.75}, cx, cy, gradient, offset + extra*0.22);
+              }
             }
           }
-        }
+        });
 
-        // particles
-        for(let pt of pts){
-          ctx.beginPath(); ctx.fillStyle = 'rgba(255,255,255,0.95)'; ctx.arc(pt.x,pt.y,pt.s,0,Math.PI*2); ctx.fill();
-        }
-
-        rafId = requestAnimationFrame(draw);
+        if(!prefersReduced) requestAnimationFrame(draw);
       }
 
-      const ro = new ResizeObserver(() => { resize(); initParticles(); });
+      resize();
+      initSolids();
+      const rectLog = canvas.getBoundingClientRect();
+      console.log('[geom] canvas', index, 'size', rectLog.width, 'x', rectLog.height, 'dpr', dpr);
+
+      const ro = new ResizeObserver(() => { resize(); initSolids(); });
       ro.observe(canvas);
 
-      // pause on hidden
       document.addEventListener('visibilitychange', () => {
-        if(document.hidden && rafId) cancelAnimationFrame(rafId);
-        if(!document.hidden) draw();
+        if(document.hidden) return;
+        draw();
       });
 
       draw();
