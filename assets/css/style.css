@@ -45,10 +45,11 @@ body{
 .footer-icon{width:18px;height:18px;display:inline-block;filter:invert(1) brightness(2);opacity:0.92;margin-right:8px;transition:transform 0.15s ease,opacity 0.15s ease}
 .site-footer .footer-link:hover .footer-icon{transform:translateY(-2px) scale(1.05);opacity:1}
 .site-footer a{ text-decoration:none }
-/* Tooltip / hint style using data-tooltip */
-.hint{position:relative;border-bottom:1px dashed rgba(78,205,196,0.35);cursor:help}
-.hint::after{content:attr(data-tooltip);position:absolute;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;pointer-events:none;background:#111;padding:8px;border-radius:8px;color:var(--muted);white-space:nowrap;font-size:0.9rem;margin-top:6px;transition:opacity 0.15s ease,transform 0.15s ease}
-.hint:hover::after{opacity:1;transform:translateX(-50%) translateY(18px)}
+/* Tooltip / anecdote style using data-tooltip */
+.anecdote{position:relative;color:#b8fff6;border-bottom:2px solid rgba(126,245,231,0.95);padding-bottom:1px;cursor:help;transition:color 0.2s ease,background-color 0.2s ease,border-color 0.2s ease}
+.anecdote[data-tooltip]::after{content:attr(data-tooltip);position:absolute;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;pointer-events:none;background:#111;padding:10px 12px;border-radius:10px;color:var(--muted);white-space:nowrap;font-size:0.9rem;margin-top:6px;transition:opacity 0.18s ease,transform 0.18s ease;z-index:2}
+.anecdote:hover,.anecdote:focus{background:rgba(126,245,231,0.2);border-bottom-color:rgba(126,245,231,1);outline:none;color:#e8ffff}
+.anecdote[data-tooltip]:hover::after,.anecdote[data-tooltip]:focus::after{opacity:1;transform:translateX(-50%) translateY(18px)}
 /* Small, pleasant hover animation for cards */
 .card {transition:transform 0.2s ease,box-shadow 0.2s ease}
 .card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
@@ -60,7 +61,7 @@ body{
 }
 /* Accessibility: prefer-reduced-motion respects */
 @media (prefers-reduced-motion:reduce){
-  .card,.hint::after{transition:none}
+  .card,.anecdote::after{transition:none}
 }
 
 /* Geometric/enigmatic button styles */
