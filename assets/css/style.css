@@ -49,10 +49,10 @@ body{
 .site-footer .footer-link:hover .footer-icon{transform:translateY(-2px) scale(1.05);opacity:1}
 .site-footer a{ text-decoration:none }
 /* Tooltip / anecdote style using data-tooltip */
-.anecdote{position:relative;color:#b8fff6;border-bottom:2px solid rgba(126,245,231,0.95);padding-bottom:1px;cursor:help;transition:color 0.2s ease,background-color 0.2s ease,border-color 0.2s ease}
-.anecdote[data-tooltip]::after{content:attr(data-tooltip);position:absolute;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;pointer-events:none;background:#111;padding:10px 12px;border-radius:10px;color:var(--muted);white-space:nowrap;font-size:0.9rem;margin-top:6px;transition:opacity 0.18s ease,transform 0.18s ease;z-index:2}
+.anecdote{position:relative;display:inline-block;vertical-align:baseline;color:#b8fff6;border-bottom:2px solid rgba(126,245,231,0.95);padding-bottom:1px;cursor:help;transition:color 0.2s ease,background-color 0.2s ease,border-color 0.2s ease}
+.anecdote[data-tooltip]::after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);opacity:0;pointer-events:none;background:rgba(17,17,17,0.98);padding:10px 12px;border-radius:10px;color:var(--muted);max-width:min(280px, calc(100vw - 24px));width:max-content;white-space:normal;line-height:1.45;font-size:0.9rem;box-shadow:0 10px 28px rgba(0,0,0,0.35);transition:opacity 0.18s ease,transform 0.18s ease;z-index:20}
 .anecdote:hover,.anecdote:focus{background:rgba(126,245,231,0.2);border-bottom-color:rgba(126,245,231,1);outline:none;color:#e8ffff}
-.anecdote[data-tooltip]:hover::after,.anecdote[data-tooltip]:focus::after{opacity:1;transform:translateX(-50%) translateY(18px)}
+.anecdote[data-tooltip]:hover::after,.anecdote[data-tooltip]:focus::after{opacity:1;transform:translateX(-50%) translateY(-4px)}
 /* Small, pleasant hover animation for cards */
 .card {transition:transform 0.2s ease,box-shadow 0.2s ease}
 .card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
