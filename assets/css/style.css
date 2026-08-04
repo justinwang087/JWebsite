@@ -27,6 +27,8 @@ body{
 .logo{color:var(--muted);font-weight:700;text-decoration:none;font-size:1.1rem}
 .nav-links a{color:var(--muted);text-decoration:none;margin-left:18px;opacity:0.9}
 .container{position:relative;z-index:2;max-width:var(--max-width);margin:120px auto 60px;padding:0 20px}
+.about-page .container{max-width:880px;padding-left:0;padding-right:32px}
+.about-page .card.about{max-width:660px;padding-left:24px;padding-right:22px;transform:translateX(-34px)}
 .hero{padding:60px 0;margin-bottom:80px;border-bottom:2px solid rgba(78,205,196,0.3);position:relative}
 .hero::after{content:'';position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:60px;height:4px;background:linear-gradient(90deg, transparent, var(--accent), transparent);border-radius:2px}
 .hero h1{font-size:2.4rem;margin:0 0 8px}
@@ -61,6 +63,7 @@ body{
   .hero h1{font-size:1.8rem}
   .nav-links{display:none}
   .container{margin-top:90px}
+  .about-page .card.about{transform:none;max-width:none;padding-left:20px;padding-right:20px}
 }
 /* Accessibility: prefer-reduced-motion respects */
 @media (prefers-reduced-motion:reduce){

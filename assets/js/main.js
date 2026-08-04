@@ -12,10 +12,69 @@ console.log('[main.js] script loaded');
   let w=0,h=0,particles=[];
   const config={count:60,color:'#2ad6c9',maxSize:2.5};
   const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const isAboutPage = document.body.classList.contains('about-page') || /about\.html$/i.test(location.pathname);
+  let polyhedron = null;
 
   function resize(){
     w = canvas.width = innerWidth;
     h = canvas.height = innerHeight;
+    if(isAboutPage){
+      const phi = (1 + Math.sqrt(5)) / 2;
+      const vertices = [
+        {x:-1, y:1, z:1},
+        {x:1, y:1, z:1},
+        {x:-1, y:-1, z:1},
+        {x:1, y:-1, z:1},
+        {x:-1, y:1, z:-1},
+        {x:1, y:1, z:-1},
+        {x:-1, y:-1, z:-1},
+        {x:1, y:-1, z:-1},
+        {x:0, y:1/phi, z:phi},
+        {x:0, y:-1/phi, z:phi},
+        {x:0, y:1/phi, z:-phi},
+        {x:0, y:-1/phi, z:-phi},
+        {x:phi, y:0, z:1/phi},
+        {x:-phi, y:0, z:1/phi},
+        {x:phi, y:0, z:-1/phi},
+        {x:-phi, y:0, z:-1/phi},
+        {x:1/phi, y:phi, z:0},
+        {x:-1/phi, y:phi, z:0},
+        {x:1/phi, y:-phi, z:0},
+        {x:-1/phi, y:-phi, z:0}
+      ];
+      const faces = [
+        [0, 8, 16, 4, 12],
+        [1, 13, 17, 5, 14],
+        [2, 9, 18, 6, 10],
+        [3, 15, 19, 7, 11],
+        [0, 12, 1, 17, 8],
+        [1, 14, 3, 19, 15],
+        [3, 11, 2, 9, 18],
+        [2, 10, 0, 4, 16],
+        [4, 16, 6, 10, 5],
+        [5, 11, 7, 15, 6],
+        [7, 19, 3, 14, 15],
+        [8, 17, 1, 13, 12],
+        [9, 18, 2, 10, 11],
+        [16, 4, 5, 14, 17],
+        [18, 19, 7, 6, 10],
+        [12, 13, 1, 14, 5],
+        [13, 12, 0, 8, 16],
+        [15, 14, 5, 4, 16],
+        [17, 8, 0, 12, 13],
+        [19, 18, 2, 9, 10]
+      ];
+
+      polyhedron = {
+        x:w*0.79,
+        y:h*0.46,
+        radius:Math.min(220, Math.max(140, Math.min(w,h)*0.19)),
+        vertices,
+        faces
+      };
+    } else {
+      polyhedron = null;
+    }
   }
   window.addEventListener('resize', resize);
   resize();
@@ -32,6 +91,56 @@ console.log('[main.js] script loaded');
   const mouse = {x:w/2,y:h/2,active:false};
   window.addEventListener('mousemove', (e)=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true});
   window.addEventListener('mouseout', ()=>{mouse.active=false});
+
+  function drawPolyhedron(){
+    if(!polyhedron || !polyhedron.vertices.length) return;
+    const t = performance.now() * 0.00045;
+    const viewDir = {x:0, y:0, z:1};
+    ctx.save();
+    ctx.translate(polyhedron.x, polyhedron.y);
+
+    const rotated = polyhedron.vertices.map((v) => {
+      const rx = v.x;
+      const ry = v.y * Math.cos(t * 0.9) - v.z * Math.sin(t * 0.9);
+      const rz = v.y * Math.sin(t * 0.9) + v.z * Math.cos(t * 0.9);
+      const sx = rx * Math.cos(t * 0.5) - ry * Math.sin(t * 0.5);
+      const sy = rx * Math.sin(t * 0.5) + ry * Math.cos(t * 0.5);
+      const scale = polyhedron.radius * 0.7;
+      return {x: sx * scale, y: sy * scale, z: rz * scale};
+    });
+
+    const projected = rotated.map((pt) => ({
+      x: pt.x / (1.6 + pt.z / (polyhedron.radius * 0.9)),
+      y: pt.y / (1.6 + pt.z / (polyhedron.radius * 0.9))
+    }));
+
+    const wireframeFaces = polyhedron.faces.map((face) => face.map(index => projected[index]));
+
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+    ctx.lineWidth = 1.4;
+    ctx.lineCap = 'round';
+    wireframeFaces.forEach((face) => {
+      const points = face.map(index => projected[index]);
+      for(let i = 0; i < points.length; i++){
+        const a = points[i];
+        const b = points[(i + 1) % points.length];
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+    });
+
+    projected.forEach((pt) => {
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 1.6, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ctx.fill();
+    });
+
+    ctx.restore();
+  }
 
   function step(){
     // Always clear first
@@ -83,6 +192,26 @@ console.log('[main.js] script loaded');
         }
       })
     }
+
+    if(polyhedron){
+      particles.forEach((p) => {
+        const dx = polyhedron.x - p.x;
+        const dy = polyhedron.y - p.y;
+        const d = Math.hypot(dx, dy);
+        const influence = polyhedron.radius * 2.6;
+        if(d < influence){
+          const strength = (1 - d / influence) * 0.0028;
+          const nx = dx / (d || 1);
+          const ny = dy / (d || 1);
+          p.vx += nx * strength;
+          p.vy += ny * strength;
+          p.vx += -ny * strength * 0.6;
+          p.vy += nx * strength * 0.6;
+        }
+      });
+    }
+
+    drawPolyhedron();
 
     requestAnimationFrame(step);
   }
