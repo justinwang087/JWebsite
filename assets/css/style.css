@@ -3,6 +3,14 @@
 */
 :root{
   --bg:#0b0c0f;
+  --bg-color-1: rgba(36, 8, 16, 0.72);
+  --bg-color-2: rgba(84, 19, 82, 0.65);
+  --bg-color-3: rgba(7, 4, 10, 0.92);
+  --bg-angle: 132deg;
+  --bg-pos-start-x: 18%;
+  --bg-pos-start-y: 24%;
+  --bg-pos-end-x: 72%;
+  --bg-pos-end-y: 84%;
   --card:#0f1113;
   --accent:#4ecdc4;
   --muted:#d1d1d1;
@@ -15,12 +23,17 @@ html,body{height:100%}
 body{
   margin:0;
   font-family: 'Lora', serif;
-  background:var(--bg);
+  background-image: linear-gradient(var(--bg-angle), var(--bg-color-1), var(--bg-color-2), var(--bg-color-3));
+  background-color: var(--bg);
+  background-size: 220% 220%;
+  background-position: var(--bg-pos-start-x) var(--bg-pos-start-y);
+  background-attachment: fixed;
+  animation: bgDrift 24s ease infinite;
   color:var(--muted);
   -webkit-font-smoothing:antialiased;
 }
 /* Canvas occupies full screen under content */
-#bg-canvas{position:fixed;inset:0;z-index:0}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;background:transparent}
 /* Site layout */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:5;background:linear-gradient(180deg,rgba(11,12,15,0.6),transparent);backdrop-filter:blur(6px)}
 .nav{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
@@ -68,11 +81,19 @@ body{
 /* Accessibility: prefer-reduced-motion respects */
 @media (prefers-reduced-motion:reduce){
   .card,.anecdote::after{transition:none}
+  body{animation:none;background-position:50% 50%}
+}
+
+@keyframes bgDrift{
+  0%{background-position:var(--bg-pos-start-x) var(--bg-pos-start-y)}
+  35%{background-position:calc(var(--bg-pos-start-x) + 18%) calc(var(--bg-pos-start-y) + 10%)}
+  65%{background-position:calc(var(--bg-pos-end-x) - 14%) calc(var(--bg-pos-end-y) - 12%)}
+  100%{background-position:var(--bg-pos-end-x) var(--bg-pos-end-y)}
 }
 
 /* Geometric/enigmatic button styles */
 .geom-btn{position:relative;display:inline-block;padding:0;border:0;background:transparent;text-decoration:none;z-index:30;margin:10px 12px 8px;cursor:pointer}
-.geom-btn .geom-shape{position:relative;display:inline-block;width:170px;height:72px;vertical-align:middle;clip-path:polygon(10% 0%,90% 0%,98% 28%,88% 100%,12% 100%,2% 28%);background:linear-gradient(180deg, rgba(11,12,15,0.32), rgba(11,12,15,0.18));border:1px solid rgba(255,255,255,0.03);border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,0.35);transition:transform 0.25s ease, box-shadow 0.25s ease;pointer-events:none;min-width:100px;min-height:44px}
+.geom-btn .geom-shape{position:relative;display:inline-block;width:170px;height:72px;vertical-align:middle;clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);background:linear-gradient(180deg, rgba(11,12,15,0.32), rgba(11,12,15,0.18));border:1px solid rgba(255,255,255,0.03);border-radius:0;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,0.35);transition:transform 0.25s ease, box-shadow 0.25s ease;pointer-events:none;min-width:100px;min-height:44px}
 .geom-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .geom-label{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#f8fcff;font-weight:800;z-index:6;pointer-events:none;letter-spacing:0.6px;font-size:0.9rem;padding:10px 12px;text-shadow:0 1px 12px rgba(0,0,0,0.55);background:rgba(11,12,15,0.42);border-radius:999px;}
 .geom-btn:hover .geom-shape{transform:translateY(-3px) rotate(-0.4deg);box-shadow:0 16px 34px rgba(0,0,0,0.35)}

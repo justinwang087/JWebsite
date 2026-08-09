@@ -9,6 +9,35 @@ console.log('[main.js] script loaded');
   console.log('[main.js] bg-canvas element:', !!canvas);
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
+
+  function initBackgroundPalette(){
+    const palettes = [
+      ['rgba(40, 9, 18, 0.68)','rgba(98, 22, 86, 0.58)','rgba(12, 7, 14, 0.90)'],
+      ['rgba(31, 8, 15, 0.72)','rgba(81, 26, 87, 0.60)','rgba(11, 6, 13, 0.92)'],
+      ['rgba(27, 7, 12, 0.74)','rgba(76, 18, 79, 0.58)','rgba(9, 4, 11, 0.95)'],
+      ['rgba(33, 10, 17, 0.69)','rgba(69, 20, 82, 0.62)','rgba(8, 4, 12, 0.93)'],
+      ['rgba(29, 7, 14, 0.70)','rgba(87, 24, 94, 0.57)','rgba(10, 5, 12, 0.91)']
+    ];
+    const choice = palettes[Math.floor(Math.random() * palettes.length)];
+    const root = document.documentElement.style;
+    root.setProperty('--bg-color-1', choice[0]);
+    root.setProperty('--bg-color-2', choice[1]);
+    root.setProperty('--bg-color-3', choice[2]);
+    root.setProperty('--bg-angle', Math.floor(Math.random() * 360) + 'deg');
+
+    const posValue = () => [
+      `${10 + Math.floor(Math.random() * 40)}%`,
+      `${10 + Math.floor(Math.random() * 40)}%`
+    ];
+    const [startX, startY] = posValue();
+    const [endX, endY] = posValue();
+    root.setProperty('--bg-pos-start-x', startX);
+    root.setProperty('--bg-pos-start-y', startY);
+    root.setProperty('--bg-pos-end-x', endX);
+    root.setProperty('--bg-pos-end-y', endY);
+  }
+  initBackgroundPalette();
+
   let w=0,h=0,particles=[];
   const config={count:60,color:'#2ad6c9',maxSize:2.5};
   const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
