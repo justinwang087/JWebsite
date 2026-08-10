@@ -284,6 +284,39 @@ console.log('[main.js] script loaded');
       observer.observe(el);
     });
 
+    const attachAnecdoteHover = (trigger, tooltip) => {
+      let hideTimer = null;
+      const show = () => {
+        if (hideTimer) {
+          clearTimeout(hideTimer);
+          hideTimer = null;
+        }
+        trigger.classList.add('tooltip-visible');
+      };
+      const hide = () => {
+        hideTimer = setTimeout(() => {
+          trigger.classList.remove('tooltip-visible');
+        }, 60);
+      };
+      trigger.addEventListener('mouseenter', show);
+      trigger.addEventListener('focus', show);
+      trigger.addEventListener('mouseleave', hide);
+      trigger.addEventListener('blur', hide);
+      if (tooltip) {
+        tooltip.addEventListener('mouseenter', show);
+        tooltip.addEventListener('mouseleave', hide);
+      }
+    };
+
+    document.querySelectorAll('.anecdote[data-tooltip-html]').forEach((trigger) => {
+      const tooltip = trigger.querySelector('.tooltip-content');
+      if (!tooltip) return;
+      if (!trigger.hasAttribute('tabindex') && !['A','BUTTON','INPUT','TEXTAREA','SELECT'].includes(trigger.tagName)) {
+        trigger.tabIndex = 0;
+      }
+      attachAnecdoteHover(trigger, tooltip);
+    });
+
     // Initialize geom canvases (small particle systems forming a torus-like shape)
     const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
     console.log('[geom] prefersReduced=', prefersReduced, 'geom-canvas count=', document.querySelectorAll('.geom-canvas').length);
