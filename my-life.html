@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Life — Justin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="life-page">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html">Justin</a>
+      <div class="nav-links">
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="my-life.html">My Life</a>
+      </div>
+    </nav>
+  </header>
+
+  <a class="geom-btn btn-back" href="javascript:history.back()" aria-label="Go back">
+    <span class="geom-shape" aria-hidden="true">
+      <canvas class="geom-canvas" aria-hidden="true"></canvas>
+      <span class="geom-label">Back</span>
+    </span>
+  </a>
+
+  <main class="container">
+    <article class="card about">
+      <h1>My life</h1>
+      <p>
+        This page is a snapshot of how I spend my days, what keeps my head spinning, and the little routines that help me stay grounded.
+        I’m someone who enjoys both quiet focus and the thrill of a last-minute <span class="anecdote" data-tooltip="I always end up doing my best work two minutes before the deadline">problem</span> chase.
+      </p>
+
+      <section class="details">
+        <h2>Daily rhythm</h2>
+        <p>
+          Mornings usually start with coffee and a quick review of yesterday’s notes.
+          Afternoon work is split between school, contest practice, and robot build sessions.
+          Evenings are when I read, sketch ideas, or catch up with friends online.
+        </p>
+      </section>
+
+      <section class="fun-facts">
+        <h2>What keeps me busy</h2>
+        <ul>
+          <li>School and robotics take up a lot of my weekday energy.</li>
+          <li>I make time for algorithms, music, and drawing when I can.</li>
+          <li>I like planning new systems more than completing the first draft.</li>
+        </ul>
+      </section>
+
+      <section class="achievements">
+        <h2>Milestones</h2>
+        <ul>
+          <li>Built my first program at age 10.</li>
+          <li>Spent 300+ hours in robotics practice last year.</li>
+          <li>Learned to fix a broken robot motor at 2 a.m.</li>
+        </ul>
+      </section>
+
+      <section class="anecdotes">
+        <h2>Moments</h2>
+        <p>
+          I remember the first time I solved a problem that felt impossible — it was the moment I felt <span class="anecdote" data-tooltip="That exact feeling is still the reason I keep working on hard problems">something click</span>.
+          I also appreciate the calm of an evening when the world quiets and I can finally enjoy the results of a day’s work.
+        </p>
+      </section>
+
+      <section class="hobbies">
+        <h2>More on the side</h2>
+        <div class="cards">
+          <article class="card">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2L3 7v7c0 5 4 9 9 9s9-4 9-9V7l-9-5z"></path></svg>
+            <h3>Planning</h3>
+            <p>I enjoy setting up my time so I can balance school, contests, and creative projects without burning out.</p>
+          </article>
+          <article class="card">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l3 6 6 .5-4.5 4 1 6-5.5-3.5L6 19l1-6L3.5 9.5 9 9 12 2z"></path></svg>
+            <h3>Learning</h3>
+            <p>I’m always picking up new skills, whether it’s a programming technique, a mechanical trick, or a new way to organize my day.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
