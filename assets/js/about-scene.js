@@ -79,10 +79,11 @@
       }
     }
 
+    const minDimension = Math.min(width, height);
     polyhedron = {
-      x: width * 0.79,
-      y: height * 0.46,
-      radius: Math.min(220, Math.max(140, Math.min(width, height) * 0.19)),
+      x: width * 0.78,
+      y: height * 0.45,
+      radius: Math.min(280, Math.max(140, minDimension * 0.24)),
       vertices,
       edges
     };
