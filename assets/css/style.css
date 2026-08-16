@@ -50,8 +50,8 @@ body{
 .subtle{color:rgba(209,209,209,0.7);margin-top:6px}
 .btn{display:inline-block;background:var(--accent);color:#0b0c0f;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700}
 /* Cards and sections */
-.card{position:relative;isolation:isolate;--pcb-inset:12px;--pcb-trace-w:3px;--pcb-turn:13px;--pcb-join:2px;--pcb-top-left-len:42%;--pcb-top-right-len:28%;--pcb-bottom-left-len:24%;--pcb-bottom-right-len:34%;--pcb-left-top-len:26%;--pcb-left-bottom-len:30%;--pcb-right-top-len:30%;--pcb-right-bottom-len:22%;--pcb2-inset:20px;--pcb2-trace-w:2px;--pcb2-turn:11px;--pcb2-join:2px;--pcb2-top-left-len:34%;--pcb2-top-right-len:24%;--pcb2-bottom-left-len:20%;--pcb2-bottom-right-len:30%;--pcb2-left-top-len:20%;--pcb2-left-bottom-len:24%;--pcb2-right-top-len:24%;--pcb2-right-bottom-len:18%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(120,241,228,0.18);border-radius:12px;padding:clamp(18px,1.4vw,26px);margin:clamp(16px,1.2vw,22px) 0;box-shadow:0 4px 18px rgba(0,0,0,0.6);overflow:hidden}
-.about > section{position:relative;isolation:isolate;--pcb-inset:12px;--pcb-trace-w:3px;--pcb-turn:13px;--pcb-join:2px;--pcb-top-left-len:42%;--pcb-top-right-len:28%;--pcb-bottom-left-len:24%;--pcb-bottom-right-len:34%;--pcb-left-top-len:26%;--pcb-left-bottom-len:30%;--pcb-right-top-len:30%;--pcb-right-bottom-len:22%;--pcb2-inset:20px;--pcb2-trace-w:2px;--pcb2-turn:11px;--pcb2-join:2px;--pcb2-top-left-len:34%;--pcb2-top-right-len:24%;--pcb2-bottom-left-len:20%;--pcb2-bottom-right-len:30%;--pcb2-left-top-len:20%;--pcb2-left-bottom-len:24%;--pcb2-right-top-len:24%;--pcb2-right-bottom-len:18%;background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border:1px solid rgba(120,241,228,0.2);border-radius:12px;padding:18px 20px;margin:16px 0 0;box-shadow:0 4px 18px rgba(0,0,0,0.45);overflow:hidden}
+.card{position:relative;isolation:isolate;--pcb-inset:16px;--pcb-trace-w:3px;--pcb-turn:13px;--pcb-join:2px;--pcb-top-left-len:42%;--pcb-top-right-len:28%;--pcb-bottom-left-len:24%;--pcb-bottom-right-len:34%;--pcb-left-top-len:26%;--pcb-left-bottom-len:30%;--pcb-right-top-len:30%;--pcb-right-bottom-len:22%;--pcb2-inset:24px;--pcb2-trace-w:2px;--pcb2-turn:11px;--pcb2-join:2px;--pcb2-top-left-len:34%;--pcb2-top-right-len:24%;--pcb2-bottom-left-len:20%;--pcb2-bottom-right-len:30%;--pcb2-left-top-len:20%;--pcb2-left-bottom-len:24%;--pcb2-right-top-len:24%;--pcb2-right-bottom-len:18%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(120,241,228,0.18);border-radius:12px;padding:clamp(24px,1.8vw,34px);margin:clamp(16px,1.2vw,22px) 0;box-shadow:0 4px 18px rgba(0,0,0,0.6);overflow:hidden}
+.about > section{position:relative;isolation:isolate;--pcb-inset:16px;--pcb-trace-w:3px;--pcb-turn:13px;--pcb-join:2px;--pcb-top-left-len:42%;--pcb-top-right-len:28%;--pcb-bottom-left-len:24%;--pcb-bottom-right-len:34%;--pcb-left-top-len:26%;--pcb-left-bottom-len:30%;--pcb-right-top-len:30%;--pcb-right-bottom-len:22%;--pcb2-inset:24px;--pcb2-trace-w:2px;--pcb2-turn:11px;--pcb2-join:2px;--pcb2-top-left-len:34%;--pcb2-top-right-len:24%;--pcb2-bottom-left-len:20%;--pcb2-bottom-right-len:30%;--pcb2-left-top-len:20%;--pcb2-left-bottom-len:24%;--pcb2-right-top-len:24%;--pcb2-right-bottom-len:18%;background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border:1px solid rgba(120,241,228,0.2);border-radius:12px;padding:22px 24px;margin:16px 0 0;box-shadow:0 4px 18px rgba(0,0,0,0.45);overflow:hidden}
 .card::before,
 .about > section::before{
   content:'';
@@ -147,7 +147,7 @@ body{
   .hero h1{font-size:2rem}
   .container{margin-top:100px}
   .about-page .card.about{transform:none;max-width:none;padding-left:20px;padding-right:20px}
-  .card{padding:16px;margin:16px 0}
+  .card{padding:20px;margin:16px 0}
   .cards{grid-template-columns:1fr;gap:16px}
   .site-footer{padding:24px 14px}
 }
@@ -158,7 +158,7 @@ body{
   .nav-links a{margin:0}
   .container{margin-top:90px;padding:0 16px}
   .hero{padding:36px 0;margin-bottom:48px}
-  .card{padding:14px}
+  .card{padding:18px}
   .geom-btn .geom-shape{width:100%;height:62px}
   .geom-label{font-size:0.88rem;padding:8px 10px}
 }
@@ -181,7 +181,7 @@ body{
   .about-page .container{max-width:min(86vw,980px)}
   .about-page .card.about{max-width:min(54vw,780px);transform:none;padding:clamp(24px,1.1vw,36px);left:calc((100vw / 3) - (min(54vw,780px) / 3) - ((100vw - min(100%,var(--max-width))) / 2));margin:clamp(24px,1.0vw,30px) 0;}
   .cards{grid-template-columns:repeat(3,minmax(280px,1fr));gap:28px}
-  .card{padding:clamp(20px,1.4vw,28px);margin:clamp(20px,1.1vw,26px) 0}
+  .card{padding:clamp(26px,1.8vw,36px);margin:clamp(20px,1.1vw,26px) 0}
   .card h3{font-size:clamp(1.2rem,1.2vw,1.5rem)}
   .geom-btn .geom-shape{width:240px;height:92px}
 }
@@ -194,7 +194,7 @@ body{
   .about-page .container{max-width:min(82vw,1020px)}
   .about-page .card.about{max-width:min(48vw,860px);transform:none;padding:clamp(26px,1.0vw,40px);left:calc((100vw / 3) - (min(48vw,860px) / 3) - ((100vw - min(100%,var(--max-width))) / 2));margin:clamp(26px,1.0vw,40px) 0;}
   .cards{gap:34px}
-  .card{padding:clamp(24px,1.4vw,32px);margin:clamp(22px,1.0vw,28px) 0}
+  .card{padding:clamp(30px,1.9vw,40px);margin:clamp(22px,1.0vw,28px) 0}
   .card h3{font-size:clamp(1.3rem,1.3vw,1.6rem)}
   .geom-btn .geom-shape{width:260px;height:104px}
 }
@@ -207,7 +207,7 @@ body{
   .about-page .container{max-width:min(86vw,1140px)}
   .about-page .card.about{max-width:min(44vw,940px);transform:none;padding:clamp(28px,0.95vw,44px);left:calc((100vw / 3) - (min(44vw,940px) / 3) - ((100vw - min(100%,var(--max-width))) / 2));margin:clamp(28px,0.95vw,34px) 0;}
   .cards{grid-template-columns:repeat(3,minmax(320px,1fr));gap:36px}
-  .card{padding:clamp(26px,1.3vw,34px);margin:clamp(24px,0.9vw,30px) 0}
+  .card{padding:clamp(32px,1.8vw,42px);margin:clamp(24px,0.9vw,30px) 0}
   .card h3{font-size:clamp(1.4rem,1.4vw,1.8rem)}
   .geom-btn .geom-shape{width:280px;height:112px}
 }

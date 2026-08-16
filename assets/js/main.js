@@ -283,7 +283,7 @@ console.log('[main.js] script loaded');
 
     // Randomize PCB border route variables per box while clamping branches to edge-safe zones.
     document.querySelectorAll('.card, .about > section').forEach((box) => {
-      box.style.setProperty('--pcb-inset', randomInt(11, 14) + 'px');
+      box.style.setProperty('--pcb-inset', randomInt(5, 9) + 'px');
       box.style.setProperty('--pcb-trace-w', randomInt(3, 4) + 'px');
       box.style.setProperty('--pcb-turn', randomInt(11, 16) + 'px');
       box.style.setProperty('--pcb-top-left-len', randomPct(38, 52));
@@ -295,7 +295,7 @@ console.log('[main.js] script loaded');
       box.style.setProperty('--pcb-right-top-len', randomPct(28, 42));
       box.style.setProperty('--pcb-right-bottom-len', randomPct(20, 34));
 
-      box.style.setProperty('--pcb2-inset', randomInt(18, 22) + 'px');
+      box.style.setProperty('--pcb2-inset', randomInt(14, 20) + 'px');
       box.style.setProperty('--pcb2-trace-w', randomInt(2, 3) + 'px');
       box.style.setProperty('--pcb2-turn', randomInt(9, 14) + 'px');
       box.style.setProperty('--pcb2-top-left-len', randomPct(32, 44));
