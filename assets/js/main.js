@@ -278,6 +278,36 @@ console.log('[main.js] script loaded');
   }, {threshold: 0.5});
 
   document.addEventListener('DOMContentLoaded', () => {
+    const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const randomPct = (min, max) => randomInt(min, max) + '%';
+
+    // Randomize PCB border route variables per box while clamping branches to edge-safe zones.
+    document.querySelectorAll('.card, .about > section').forEach((box) => {
+      box.style.setProperty('--pcb-inset', randomInt(11, 14) + 'px');
+      box.style.setProperty('--pcb-trace-w', randomInt(3, 4) + 'px');
+      box.style.setProperty('--pcb-turn', randomInt(11, 16) + 'px');
+      box.style.setProperty('--pcb-top-left-len', randomPct(38, 52));
+      box.style.setProperty('--pcb-top-right-len', randomPct(24, 36));
+      box.style.setProperty('--pcb-bottom-left-len', randomPct(24, 38));
+      box.style.setProperty('--pcb-bottom-right-len', randomPct(30, 44));
+      box.style.setProperty('--pcb-left-top-len', randomPct(24, 38));
+      box.style.setProperty('--pcb-left-bottom-len', randomPct(26, 42));
+      box.style.setProperty('--pcb-right-top-len', randomPct(28, 42));
+      box.style.setProperty('--pcb-right-bottom-len', randomPct(20, 34));
+
+      box.style.setProperty('--pcb2-inset', randomInt(18, 22) + 'px');
+      box.style.setProperty('--pcb2-trace-w', randomInt(2, 3) + 'px');
+      box.style.setProperty('--pcb2-turn', randomInt(9, 14) + 'px');
+      box.style.setProperty('--pcb2-top-left-len', randomPct(32, 44));
+      box.style.setProperty('--pcb2-top-right-len', randomPct(20, 30));
+      box.style.setProperty('--pcb2-bottom-left-len', randomPct(18, 30));
+      box.style.setProperty('--pcb2-bottom-right-len', randomPct(24, 36));
+      box.style.setProperty('--pcb2-left-top-len', randomPct(18, 30));
+      box.style.setProperty('--pcb2-left-bottom-len', randomPct(20, 32));
+      box.style.setProperty('--pcb2-right-top-len', randomPct(22, 34));
+      box.style.setProperty('--pcb2-right-bottom-len', randomPct(16, 26));
+    });
+
     document.querySelectorAll('.geom-label').forEach(el => {
       // ensure text is visible
       el.style.visibility = 'visible';

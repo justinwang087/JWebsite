@@ -50,8 +50,57 @@ body{
 .subtle{color:rgba(209,209,209,0.7);margin-top:6px}
 .btn{display:inline-block;background:var(--accent);color:#0b0c0f;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700}
 /* Cards and sections */
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:clamp(18px,1.4vw,26px);margin:clamp(16px,1.2vw,22px) 0;box-shadow:0 4px 18px rgba(0,0,0,0.6)}
-.about > section{background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px 20px;margin:16px 0 0;box-shadow:0 4px 18px rgba(0,0,0,0.45)}
+.card{position:relative;isolation:isolate;--pcb-inset:12px;--pcb-trace-w:3px;--pcb-turn:13px;--pcb-join:2px;--pcb-top-left-len:42%;--pcb-top-right-len:28%;--pcb-bottom-left-len:24%;--pcb-bottom-right-len:34%;--pcb-left-top-len:26%;--pcb-left-bottom-len:30%;--pcb-right-top-len:30%;--pcb-right-bottom-len:22%;--pcb2-inset:20px;--pcb2-trace-w:2px;--pcb2-turn:11px;--pcb2-join:2px;--pcb2-top-left-len:34%;--pcb2-top-right-len:24%;--pcb2-bottom-left-len:20%;--pcb2-bottom-right-len:30%;--pcb2-left-top-len:20%;--pcb2-left-bottom-len:24%;--pcb2-right-top-len:24%;--pcb2-right-bottom-len:18%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(120,241,228,0.18);border-radius:12px;padding:clamp(18px,1.4vw,26px);margin:clamp(16px,1.2vw,22px) 0;box-shadow:0 4px 18px rgba(0,0,0,0.6);overflow:hidden}
+.about > section{position:relative;isolation:isolate;--pcb-inset:12px;--pcb-trace-w:3px;--pcb-turn:13px;--pcb-join:2px;--pcb-top-left-len:42%;--pcb-top-right-len:28%;--pcb-bottom-left-len:24%;--pcb-bottom-right-len:34%;--pcb-left-top-len:26%;--pcb-left-bottom-len:30%;--pcb-right-top-len:30%;--pcb-right-bottom-len:22%;--pcb2-inset:20px;--pcb2-trace-w:2px;--pcb2-turn:11px;--pcb2-join:2px;--pcb2-top-left-len:34%;--pcb2-top-right-len:24%;--pcb2-bottom-left-len:20%;--pcb2-bottom-right-len:30%;--pcb2-left-top-len:20%;--pcb2-left-bottom-len:24%;--pcb2-right-top-len:24%;--pcb2-right-bottom-len:18%;background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border:1px solid rgba(120,241,228,0.2);border-radius:12px;padding:18px 20px;margin:16px 0 0;box-shadow:0 4px 18px rgba(0,0,0,0.45);overflow:hidden}
+.card::before,
+.about > section::before{
+  content:'';
+  position:absolute;
+  inset:var(--pcb-inset);
+  border-radius:7px;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.92;
+  filter:drop-shadow(0 0 3px rgba(78,205,196,0.24));
+  background:
+    linear-gradient(90deg, rgba(78,205,196,0.95), rgba(78,205,196,0.95)) left calc(var(--pcb-turn) - var(--pcb-join)) top 0 / calc(var(--pcb-top-left-len) + var(--pcb-join)) var(--pcb-trace-w) no-repeat,
+    linear-gradient(90deg, rgba(78,205,196,0.9), rgba(78,205,196,0.9)) right calc(var(--pcb-turn) - var(--pcb-join)) top 0 / calc(var(--pcb-top-right-len) + var(--pcb-join)) var(--pcb-trace-w) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.94), rgba(78,205,196,0.94)) right 0 top calc(var(--pcb-turn) - var(--pcb-join)) / var(--pcb-trace-w) calc(var(--pcb-right-top-len) + var(--pcb-join)) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.86), rgba(78,205,196,0.86)) right 0 bottom calc(var(--pcb-turn) - var(--pcb-join)) / var(--pcb-trace-w) calc(var(--pcb-right-bottom-len) + var(--pcb-join)) no-repeat,
+    linear-gradient(90deg, rgba(78,205,196,0.9), rgba(78,205,196,0.9)) left calc(var(--pcb-turn) - var(--pcb-join)) bottom 0 / calc(var(--pcb-bottom-left-len) + var(--pcb-join)) var(--pcb-trace-w) no-repeat,
+    linear-gradient(90deg, rgba(78,205,196,0.84), rgba(78,205,196,0.84)) right calc(var(--pcb-turn) - var(--pcb-join)) bottom 0 / calc(var(--pcb-bottom-right-len) + var(--pcb-join)) var(--pcb-trace-w) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.92), rgba(78,205,196,0.92)) left 0 top calc(var(--pcb-turn) - var(--pcb-join)) / var(--pcb-trace-w) calc(var(--pcb-left-top-len) + var(--pcb-join)) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.84), rgba(78,205,196,0.84)) left 0 bottom calc(var(--pcb-turn) - var(--pcb-join)) / var(--pcb-trace-w) calc(var(--pcb-left-bottom-len) + var(--pcb-join)) no-repeat,
+    linear-gradient(135deg, transparent 36%, rgba(142,250,239,0.95) 41%, rgba(142,250,239,0.95) 59%, transparent 64%) left 0 top 0 / var(--pcb-turn) var(--pcb-turn) no-repeat,
+    linear-gradient(45deg, transparent 36%, rgba(142,250,239,0.92) 41%, rgba(142,250,239,0.92) 59%, transparent 64%) right 0 top 0 / var(--pcb-turn) var(--pcb-turn) no-repeat,
+    linear-gradient(45deg, transparent 36%, rgba(142,250,239,0.9) 41%, rgba(142,250,239,0.9) 59%, transparent 64%) left 0 bottom 0 / var(--pcb-turn) var(--pcb-turn) no-repeat,
+    linear-gradient(135deg, transparent 36%, rgba(142,250,239,0.88) 41%, rgba(142,250,239,0.88) 59%, transparent 64%) right 0 bottom 0 / var(--pcb-turn) var(--pcb-turn) no-repeat;
+}
+.card::after,
+.about > section::after{
+  content:'';
+  position:absolute;
+  inset:var(--pcb2-inset);
+  border-radius:5px;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.68;
+  background:
+    linear-gradient(90deg, rgba(78,205,196,0.82), rgba(78,205,196,0.82)) left calc(var(--pcb2-turn) - var(--pcb2-join)) top 0 / calc(var(--pcb2-top-left-len) + var(--pcb2-join)) var(--pcb2-trace-w) no-repeat,
+    linear-gradient(90deg, rgba(78,205,196,0.74), rgba(78,205,196,0.74)) right calc(var(--pcb2-turn) - var(--pcb2-join)) top 0 / calc(var(--pcb2-top-right-len) + var(--pcb2-join)) var(--pcb2-trace-w) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.76), rgba(78,205,196,0.76)) right 0 top calc(var(--pcb2-turn) - var(--pcb2-join)) / var(--pcb2-trace-w) calc(var(--pcb2-right-top-len) + var(--pcb2-join)) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.68), rgba(78,205,196,0.68)) right 0 bottom calc(var(--pcb2-turn) - var(--pcb2-join)) / var(--pcb2-trace-w) calc(var(--pcb2-right-bottom-len) + var(--pcb2-join)) no-repeat,
+    linear-gradient(90deg, rgba(78,205,196,0.74), rgba(78,205,196,0.74)) left calc(var(--pcb2-turn) - var(--pcb2-join)) bottom 0 / calc(var(--pcb2-bottom-left-len) + var(--pcb2-join)) var(--pcb2-trace-w) no-repeat,
+    linear-gradient(90deg, rgba(78,205,196,0.66), rgba(78,205,196,0.66)) right calc(var(--pcb2-turn) - var(--pcb2-join)) bottom 0 / calc(var(--pcb2-bottom-right-len) + var(--pcb2-join)) var(--pcb2-trace-w) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.76), rgba(78,205,196,0.76)) left 0 top calc(var(--pcb2-turn) - var(--pcb2-join)) / var(--pcb2-trace-w) calc(var(--pcb2-left-top-len) + var(--pcb2-join)) no-repeat,
+    linear-gradient(0deg, rgba(78,205,196,0.68), rgba(78,205,196,0.68)) left 0 bottom calc(var(--pcb2-turn) - var(--pcb2-join)) / var(--pcb2-trace-w) calc(var(--pcb2-left-bottom-len) + var(--pcb2-join)) no-repeat,
+    linear-gradient(135deg, transparent 36%, rgba(121,235,224,0.78) 41%, rgba(121,235,224,0.78) 59%, transparent 64%) left 0 top 0 / var(--pcb2-turn) var(--pcb2-turn) no-repeat,
+    linear-gradient(45deg, transparent 36%, rgba(121,235,224,0.72) 41%, rgba(121,235,224,0.72) 59%, transparent 64%) right 0 top 0 / var(--pcb2-turn) var(--pcb2-turn) no-repeat,
+    linear-gradient(45deg, transparent 36%, rgba(121,235,224,0.68) 41%, rgba(121,235,224,0.68) 59%, transparent 64%) left 0 bottom 0 / var(--pcb2-turn) var(--pcb2-turn) no-repeat,
+    linear-gradient(135deg, transparent 36%, rgba(121,235,224,0.64) 41%, rgba(121,235,224,0.64) 59%, transparent 64%) right 0 bottom 0 / var(--pcb2-turn) var(--pcb2-turn) no-repeat;
+}
+.card > *,
+.about > section > *{position:relative;z-index:1}
 .about > section h2{margin-top:0;margin-bottom:10px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,32vw),1fr));gap:clamp(14px,2vw,30px)}
 .card .icon{width:36px;height:36px;margin-bottom:8px;color:var(--accent)}
