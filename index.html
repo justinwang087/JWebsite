@@ -1,11 +1,4 @@
-<!-- <span class="anecdote" data-tooltip-html>
-  curious phrase
-  <span class="tooltip-content">
-    <strong>Fun fact</strong><br>
-    I once coded a robot in one night.
-    <img src="assets/images/robot.jpg" alt="Robot">
-  </span>
-</span> -->
+<!-- <span class="anecdote" data-tooltip-html> content <span class="tooltip-content"> hidden content <img src="" alt=""> </span> </span> -->
 
 <!doctype html>
 <html lang="en">
@@ -37,7 +30,14 @@
     <section class="hero">
       <h1>Hi, I'm Justin.</h1>
       <p class="lead">A not-so <span class="anecdote" data-tooltip="If you can count enjoying the arts as having emotions (or a life)">emotionless</span> logician.</p>
-      <p class="subtle">I prefer to learn to <span class="anecdote" data-tooltip="I don't know where I heard this but more associations leads to better memory and I find I can connect things when I understand them.">understand</span> rather than to <span class="anecdote" data-tooltip="I like to point out the distinction between being smart and being knowledgeable to anyone who would listen. (Insight vs. wisdom also)">memorize</span>.</p>
+      <p class="subtle">I prefer to learn to <span class="anecdote" data-tooltip="I don't know where I heard this but more associations leads to better memory and I find I can connect things when I understand them.">understand</span> rather than to 
+        <span class="anecdote" data-tooltip-html>
+          memorize
+          <span class="tooltip-content">
+              I like to point out the distinction between being smart and being knowledgeable to anyone who would listen. <br><small>(Insight vs. wisdom also)</small>
+          <img src="assets/images/Insight vs. Wisdom Graphic.jpg" alt="insight vs wisdom graphic" height="150px">
+           </span>
+         </span>.</p>
       <p class="cta"><a class="geom-btn" href="projects.html">
         <span class="geom-shape" aria-hidden="true">
           <canvas class="geom-canvas" aria-hidden="true"></canvas>
